@@ -1,14 +1,25 @@
 <template>
-    <form class="form-signin" @submit.prevent="register">
-        <h1 class="h3 mb-3 font-weight-normal">Register</h1>
-        <label class="sr-only">Username</label>
-        <input type="text" v-model="username" class="form-control" placeholder="Username" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" v-model='password' class="form-control" :class={alert:bad_pw} placeholder="Password" required>
-        <label for="inputPassword" class="sr-only">Confirm Password</label>
-        <input type="password" v-model='confirmpassword' class="form-control" :class={alert:unmatch} placeholder="Confirm Password" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
-    </form>
+    <div class="container-fluid">
+        <div class='row'>
+            <div class='col-4 offset-4'>
+                <form class="form-signin" @submit.prevent="register">
+                    <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+                    <label class="sr-only">Username</label>
+                    <input type="text" v-model="username" class="form-control" placeholder="Username" required autofocus>
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" id="inputPassword" v-model='password' class="form-control" :class={alert:bad_pw} placeholder="Password" required>
+                    <label for="inputPassword" class="sr-only">Confirm Password</label>
+                    <input type="password" v-model='confirmpassword' class="form-control" :class={alert:unmatch} placeholder="Confirm Password" required>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+                </form>
+            </div>
+            <div class='col-3 pt-5 mt-2'>
+                <div v-html="error" class="error"></div>
+            </div>
+        </div>
+    </div>
+
+    
     <!-- <div class="text-center">
         <form class="form-signin" @submit.prevent="register">
           <h2>Register</h2>
@@ -116,6 +127,9 @@
 .alert{
     border:1px solid red;
 }
+.error{
+    color:red;
+}
 /* .text-center{
   display:flex;
   flex-direction: column;
@@ -160,9 +174,7 @@ button[disabled] {
       box-shadow: none;
       opacity: .65;    
 }
-.error{
-    color:red;
-}
+
 .confirm_pw{
     border-color:red;
 } */

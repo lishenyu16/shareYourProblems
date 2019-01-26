@@ -1,7 +1,7 @@
 <template>
     <div class="main">
         <div class="title">
-            <input type="text" v-model='title' class='input-title' placeholder="Enter title here">
+            <input type="text" v-model='title' class='input-title'>
         </div>
         <div class="editor">
             <!-- quill-editor -->
@@ -9,12 +9,10 @@
                         v-model="contents"
                         :options="editorOption"
                         @change="onEditorChange($event)">
-                        <!-- @blur="onEditorBlur($event)"
-                        @focus="onEditorFocus($event)"
-                        @ready="onEditorReady($event)" -->
             </quill-editor>
         </div>
         <div class='submit'>
+            <button class='btn btn-secondary' @click='$router.go(-1)'>Cancel</button>
             <button class='btn btn-success' @click='submit'>Submit</button>
         </div>
     </div>
@@ -28,9 +26,9 @@
   export default {
     data() {
       return {
-            title:'',
-            brief:'',
-            contents:'',
+            title: this.$store.getters.currentPost.title,
+            contents: this.$store.getters.currentPost.contents,
+            brief:this.$store.getters.currentPost.brief,
             editorOption: {
                 modules: {
                     toolbar: [
@@ -72,24 +70,20 @@
         },
         submit(){
             //userId,title,content,date
-
             const post = {
+                postId:this.$store.getters.currentPost._id,
                 userId: this.$store.getters.currentUser.userId,
                 username: this.$store.getters.currentUser.username,
                 title: this.title,
                 brief: this.brief,
                 contents: this.contents,
                 date: this.time,
-                likes:0,
-                dislikes:0
             }
-            postApi.addPost(post)
+
+            postApi.editPost(post)
                 .then((res)=>{
-                    console.log("res status: ", res.status)
-                    this.$store.dispatch('addPost',res.data.post)
-                    .then(()=>{
-                        this.$router.replace('/home')
-                    })
+                    this.$store.commit('CURRENT_POST',res.data.post)
+                    this.$router.replace('/postDetail/'+post.postId)
                 })
                 .catch(err=>{
                     if(err.response.status==401){
@@ -103,6 +97,9 @@
                         alert('Internal error occured, please try again')
                     }
                 })
+        },
+        cancel(){
+            this.$router.replace('/postDetail/'+post.postId)
         }
 
     },

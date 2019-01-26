@@ -18,6 +18,9 @@
                 </div>
             </div>
         </div>
+        <!-- above is modal box for adding reply ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!-- above is modal box for adding reply ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
         <div class='header'>
             <div style="width:80%; padding-left:0.5rem;">{{replies.length}} replies, 1 page in total</div>
             <div style='width:10%;'>
@@ -41,6 +44,7 @@
                         <div>Floor 1, {{date}} 
                             <a v-if="!isLoggedIn || currentUserId!=userId" data-toggle="modal" href="#exampleModal">Reply</a>
                             <a v-if="postOwner" href="#" @click='deletePost'>Delete</a>
+                            <router-link v-if="postOwner" to='/editPost'>Edit</router-link>
                         </div>
                     </div>
                 </div>
@@ -56,8 +60,8 @@
                     <div class='reply_content'>{{reply.replyContent}}</div>
                     <div class='reply_tail'>
                         <div>Floor {{index+2}}, {{reply.date}} 
-                            <a v-if="!isLoggedIn || currentUserId!=reply.userId" data-toggle="modal" href="#exampleModal">Reply</a>
-                            <a v-if='currentUserIsAdmin || reply.userId == currentUserId' href="#" @click='deleteReply(reply._id)'>Delete</a>
+                            <a v-if="!isLoggedIn || currentUserId!=reply.userId" @click="replyWhom(reply.username)" data-toggle="modal" href="#exampleModal">Reply</a>
+                            <a v-if='currentUserId==reply.userId' href="#" @click='deleteReply(reply._id,index)'>Delete</a>
                          </div>
                     </div>
                 </div>
@@ -110,7 +114,7 @@ export default {
             likes:0,
             dislikes:0,
             currentUserId: this.$store.getters.isLoggedIn?this.$store.getters.currentUser.userId:null,
-            currentUserIsAdmin: this.$store.getters.isLoggedIn?this.$store.getters.currentUser.isAdmin:false
+            //currentUserIsAdmin: this.$store.getters.isLoggedIn?this.$store.getters.currentUser.isAdmin:false
         }
     },
     computed: {
@@ -118,12 +122,6 @@ export default {
             return this.$store.getters.isLoggedIn
         },
         postOwner(){
-            if(this.isLoggedIn){
-                return this.$store.getters.currentUser.isAdmin || this.userId == this.currentUserId
-            }
-            return false
-        },
-        replyOwner(){
             if(this.isLoggedIn){
                 return this.$store.getters.currentUser.isAdmin || this.userId == this.currentUserId
             }
@@ -140,8 +138,14 @@ export default {
         },
     },
     methods: {
+        replyWhom(username,index){
+            this.replyMessage +='@' + username+': '
+        },
         imageSrc(name) {
             return `https://robohash.org/` + name +  `.png?bgset=bg2&size=200x200&set=set4`
+        },
+        goToEditPost(postId){
+            this.$router.replace('/editPost/'+postId)
         },
         deletePost(){
             if(confirm('Delete this post?')){
@@ -167,10 +171,10 @@ export default {
                 return
             }
         },
-        deleteReply(replyId){
+        deleteReply(replyId,index){
             postApi.deleteReply(replyId, this.currentUserId)
-                .then((res)=>{
-                    this.replies = res.data.replies
+                .then(()=>{
+                    this.replies.splice(index,1)
                 })
                 .catch(err=>{
                     if(err.response.status==401){
@@ -196,12 +200,6 @@ export default {
                     return
                 }
             }
-            // if(type=='author'){
-
-            // }
-            // if(type=='others'){
-
-            // }
             const reply = {
                 postId: this.postId,
                 userId: this.$store.getters.currentUser.userId,
@@ -213,7 +211,6 @@ export default {
             }
             postApi.addReply(reply)
                 .then(res=>{
-                    //alert('reply added!')
                     $('#exampleModal').modal('hide')
                     this.replies.push(res.data.reply)
                     this.replyMessage=''

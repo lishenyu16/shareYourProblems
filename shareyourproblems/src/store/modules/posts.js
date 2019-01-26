@@ -6,9 +6,9 @@ const mutations = {
     UPDATE_POSTS(state,payload){
         state.posts.push(payload)
     },
-    // CURRENT_BLOG(state,payload){
-    //     state.blog = payload
-    // },
+    CURRENT_POST(state,payload){
+        state.post = payload
+    },
     // UPDATE_COMMENTS(state,payload){ 
 
     // },

@@ -8,6 +8,13 @@ export default {
             }
         })
     },
+    editPost(post){
+        return api().post('posts/editPost', post, {
+            headers:{
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+    },
     deletePost(postId,userId){
         return api().delete(`posts/deletePost/${postId}/${userId}`,
             {
@@ -18,7 +25,7 @@ export default {
         )
     },
     deleteReply(replyId,userId){
-        return api().delete(`posts/deletePost/${replyId}/${userId}`,
+        return api().delete(`posts/deleteReply/${replyId}/${userId}`,
             {
                 headers:{
                     Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -28,6 +35,9 @@ export default {
     },
     getPosts(){
         return api().get('posts')
+    },
+    getUserPosts(userId){
+        return api().get('posts/userPosts/'+userId)
     },
     getSinglePost(postId){
         return api().get('posts/' + postId)

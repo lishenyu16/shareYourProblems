@@ -28,7 +28,7 @@
                         {{user.username}}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <router-link to="/myPosts" class="dropdown-item">My Posts</router-link>
+                        <router-link :to="{name:'UserPosts',params:{userId:user.userId}}" class="dropdown-item">My Posts</router-link>
                         <a class="dropdown-item" href="#" @click='logout'>Log Out</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Something else here</a>

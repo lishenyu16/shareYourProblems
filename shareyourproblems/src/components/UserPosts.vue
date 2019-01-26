@@ -1,34 +1,36 @@
 <template>
     <div class="container-fluid main">
-        <div class="posts">
-            <div class='single-post' v-for='post in posts' @click='postDetail(post)'>
-                <div class="post-left"><span class="badge badge-pill badge-warning">{{post.replies.length}}</span></div>
-                <div class="post-right">
-                    <div class="post">
-                        <div class='post-title'>{{post.title}}</div>
-                        <div class='post-author'><i class="material-icons">person</i> {{post.username}}</div>
-                    </div>
-                    <div class="post">
-                        <div class='post-brief'>{{post.brief}}</div>
-                        <div class='post-date'>{{post.postDate}}</div>
+        <div class='row'>
+            <div class='col-10 offset-2'>
+                <h3>My Posts</h3>
+            </div>
+            <div class='col-8 offset-2'>
+                <div class='single-post' v-for='post in posts' @click='postDetail(post)'>
+                    <div class="post-left"><span class="badge badge-pill badge-warning">{{post.replies.length}}</span></div>
+                    <div class="post-right">
+                        <div class="post">
+                            <div class='post-title'>{{post.title}}</div>
+                            <div class='post-author'><i class="material-icons">person</i> {{post.username}}</div>
+                        </div>
+                        <div class="post">
+                            <div class='post-brief'>{{post.brief}}</div>
+                            <div class='post-date'>{{post.postDate}}</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="hottopics">
-           
-        </div>
     </div>
 </template>
-
 <script>
-import postApi from '../services/postApi'
+import postsApi from '../services/postApi'
 export default {
     created(){
-        postApi.getPosts()
+        postsApi.getUserPosts(this.$route.params.userId)
             .then(res=>{
-                this.$store.dispatch('setPosts',res.data)
+                this.posts = res.data
             })
+            .catch()
     },
     methods: {
         postDetail(post) {
@@ -36,29 +38,17 @@ export default {
             this.$router.replace('/postDetail/'+post._id)
         }
     },
-    computed: {
-        posts() {
-            return this.$store.getters.posts
+    data() {
+        return {
+            posts: []
         }
     },
 }
 </script>
-
 <style scoped>
 .main{
-    min-height: calc(100vh - 5rem);
-    display:flex;
-    padding-left:15%;
-    justify-content: space-between;
-}
-.posts{
-    margin-top:1rem;
-    width:80%;
-    display:flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background-color:white;
+    min-height: calc(100vh - 5rem);   
+    padding-top:1rem;
 }
 .single-post{
     width:100%;
@@ -111,5 +101,4 @@ export default {
     width:20%;
     padding:1rem;
 }
-
 </style>

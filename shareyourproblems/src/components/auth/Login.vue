@@ -5,12 +5,22 @@
         <input type="text"  v-model="username" class="form-control" placeholder="Username" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword" v-model='password' class="form-control" placeholder="Password" required>
+        <div v-if="error" class="checkbox mb-3 error">
+            <label>
+                Either your username or password is incorrect, please re-enter
+            </label>
+        </div>
         <div class="checkbox mb-3">
             <label>
                 <input type="checkbox" value="remember-me"> Remember me
             </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <div class="checkbox m-3">
+            <label>
+                No account? <router-link to='/register'>Register</router-link>
+            </label>
+        </div>
     </form>
 </template>
 <script>
@@ -56,7 +66,7 @@
 
 .form-signin {
   width: 100%;
-  max-width: 330px;
+  max-width: 20rem;
   padding: 15px;
   margin: auto;
   text-align: center;
@@ -85,6 +95,8 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-
+.error{
+  color:red;
+}
 </style>
 
