@@ -35,10 +35,10 @@ export default {
     },
 
     getNotice(){
-        return api().get('notice')
+        return api().get('notice/getnotice')
     },
     editNotice(notice){
-        return api().post('notice', notice, {
+        return api().post('notice/postnotice', notice, {
             headers:{
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }
