@@ -55,7 +55,7 @@
                 <li class="nav-item" v-if="isLoggedIn">
                     <router-link to="/addPost" class="nav-link hover-effect"> New Post &#9997;</router-link>
                 </li>
-                <li class="nav-item" v-if="isLoggedInAdmin">
+                <li class="nav-item" v-if="isAdmin">
                     <button class='btn btn-default' data-toggle="modal" data-target="#noticeModal">Notice</button>
                 </li>
                 <li class="nav-item" v-if="!isLoggedIn">
@@ -73,6 +73,7 @@
 import postApi from '../services/postApi'
 export default {
     beforeCreate(){
+
         postApi.getNotice()
             .then(res=>{
                 this.$store.commit('UPDATE_NOTICE',res.data.content)
@@ -119,6 +120,12 @@ export default {
         },
         isLoggedIn(){
             return this.$store.getters.isLoggedIn
+        },
+        isAdmin(){
+            if(this.$store.getters.currentUser){
+                return this.$store.getters.currentUser.isAdmin
+            }
+            return false
         },
         isLoggedInAdmin(){
             if(!this.$store.getters.isLoggedIn){

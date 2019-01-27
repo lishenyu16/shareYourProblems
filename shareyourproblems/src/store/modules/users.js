@@ -41,8 +41,7 @@ const actions = {
         const token = localStorage.getItem('token')
         const userId = localStorage.getItem('userId')
         const username = localStorage.getItem('username')
-        const isAdmin = localStorage.getItem('isAdmin')
-        const email = localStorage.getItem('email')
+        // const isAdmin = localStorage.getItem('isAdmin')
         if(!token){
             commit('SET_USER',null)
             commit('SET_TOKEN', null)
@@ -57,7 +56,7 @@ const actions = {
             return
         }
         //log user in:
-        commit('SET_USER',{username:username,userId:userId,email:email,isAdmin:isAdmin})
+        commit('SET_USER',{username:username,userId:userId})
         commit('SET_TOKEN',token)
     },
     setLogoutTimer({commit}){
