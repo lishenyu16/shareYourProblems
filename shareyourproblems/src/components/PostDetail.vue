@@ -24,7 +24,7 @@
         <div class='header'>
             <div style="width:80%; padding-left:0.5rem;">{{replies.length}} replies, 1 page in total</div>
             <div style='width:10%;'>
-                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Reply</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal">Reply</button>
             </div>
         </div>
         <div class='title'>
@@ -118,6 +118,9 @@ export default {
         }
     },
     computed: {
+        postDetail(){
+            return '#/postDetail/'+this.postId
+        },
         isLoggedIn(){
             return this.$store.getters.isLoggedIn
         },
@@ -241,7 +244,7 @@ export default {
     padding:0.5rem 1rem 0;
 }
 .main{
-    min-height: calc(100vh - 5rem);
+    min-height: calc(100vh - 6rem);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

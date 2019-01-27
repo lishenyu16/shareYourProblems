@@ -18,25 +18,6 @@
             </div>
         </div>
     </div>
-
-    
-    <!-- <div class="text-center">
-        <form class="form-signin" @submit.prevent="register">
-          <h2>Register</h2>
-          <div class="credentials">
-              <label for="username">Username</label>
-              <input type="text" v-model="username" required autofocus>
-              <label for="password">Password</label>
-              <input type="password" v-model="password" required autofocus :class={confirm_pw:invalid_pw}>
-              <label for="password">Confirm Password</label>
-              <input type="password" v-model="confirm_pw" required autofocus :class={confirm_pw:unmatch}>
-          </div>
-          <div v-html="error" class="error"></div>
-          <div v-if="unmatch" class="error">Passwords dont't match</div>
-          <div v-if="invalid_pw" class="error">Passwords must be at least 6 characters</div>
-          <button class="btn-signup" type="submit" :disabled="disabled">Sign Up</button>
-        </form>
-    </div> -->
 </template>
 <script>
     import authentication from '@/services/authentication'
@@ -68,7 +49,10 @@
                         if(err.response.status==400){
                             this.error = err.response.data.error
                         }
-                        else if(err.response.status==401){
+                        // else if(err.response.status==401){
+                        //     this.error = err.response.data.message
+                        // }
+                        else if(err.response.status==409){
                             this.error = err.response.data.message
                         }
                         else{
@@ -78,18 +62,6 @@
             }
         },
         computed: {
-            // unmatch() {
-            //     return this.password!=this.confirmpassword 
-            // },
-            // invalid_pw(){
-            //     return this.password.length<=5
-            // },
-            // disabled(){
-            //     if(this.unmatch || this.invalid_pw){
-            //         return true
-            //     }
-            //     return false
-            // }
         },
     }
 </script>
@@ -130,52 +102,4 @@
 .error{
     color:red;
 }
-/* .text-center{
-  display:flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items:center;
-  margin-top:8rem;
-  min-height: calc(100vh - 11rem);
-}
-.form-signin {
-  width: 100%;
-  padding: 15px;
-}
-
-.credentials{
-    width:100%;
-    display:flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items:flex-start;
-}
-
-.credentials input{
-    padding: 0.5rem 1rem;
-    font-size: 1.25rem;
-    line-height: 1rem;
-    border-radius: 0.3rem;   
-    width:100%;
-}
-.btn-signup{
-  padding:0.5rem;
-  margin-top:0.5rem;
-  border:0.2rem solid gray;
-  border-radius: 0.2rem;
-  background-color:paleturquoise;
-  cursor: pointer;
-}
-button[disabled] {
-      pointer-events: none;
-      cursor: not-allowed;
-      filter: alpha(opacity=65);
-      -webkit-box-shadow: none;
-      box-shadow: none;
-      opacity: .65;    
-}
-
-.confirm_pw{
-    border-color:red;
-} */
 </style>

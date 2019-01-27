@@ -40,14 +40,14 @@ export default {
     },
     data() {
         return {
-            posts: []
+            posts: [],
         }
     },
 }
 </script>
 <style scoped>
 .main{
-    min-height: calc(100vh - 5rem);   
+    min-height: calc(100vh - 6rem);   
     padding-top:1rem;
 }
 .single-post{

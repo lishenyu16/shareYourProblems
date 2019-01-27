@@ -1,8 +1,12 @@
 const state = {
     posts:[],
-    post:{}
+    post:{},
+    notice:''
 }
 const mutations = {
+    UPDATE_NOTICE(state,payload){
+        state.notice = payload
+    },
     UPDATE_POSTS(state,payload){
         state.posts.push(payload)
     },
@@ -31,6 +35,9 @@ const getters = {
     },
     currentPost(){
         return state.post
+    },
+    currentNotice(){
+        return state.notice
     }
 }
 

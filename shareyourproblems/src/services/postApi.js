@@ -33,6 +33,18 @@ export default {
             }
         )
     },
+
+    getNotice(){
+        return api().get('notice')
+    },
+    editNotice(notice){
+        return api().post('notice', notice, {
+            headers:{
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+    },
+
     getPosts(){
         return api().get('posts')
     },

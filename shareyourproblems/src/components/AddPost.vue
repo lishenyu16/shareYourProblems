@@ -132,7 +132,7 @@
 <style scoped>
 .main{
     width:100%;
-    min-height: calc(100vh - 5rem);
+    min-height: calc(100vh - 6rem);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
