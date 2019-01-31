@@ -82,5 +82,6 @@ export default new Router({
       name: 'USNews',
       component: USNews
     },
+    { path: '*', component: Home },
   ]
 })

@@ -45,8 +45,8 @@ export default {
         })
     },
 
-    getPosts(){
-        return api().get('posts')
+    getPosts(page){
+        return api().get('posts?page='+page)
     },
     getUserPosts(userId){
         return api().get('posts/userPosts/'+userId)

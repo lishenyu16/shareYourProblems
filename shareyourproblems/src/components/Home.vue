@@ -22,6 +22,25 @@
                 </div>
             </div>
         </div>
+        <nav id='page-nav' aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li v-if="currentPage!==1 && previousPage!==1" class="page-item">
+                    <a @click='getPostsByPage(1)' class="page-link" href="#page=1">1</a>
+                </li>
+                <li v-if="hasPreviousPage" class="page-item">
+                    <a @click='getPostsByPage(previousPage)' class="page-link" :href="hrefPrevious" >{{previousPage}}</a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="#">{{currentPage}}</a>
+                </li>
+                <li v-if='hasNextPage' class="page-item">
+                    <a @click='getPostsByPage(nextPage)' class="page-link" :href="hrefNextPage">{{nextPage}}</a>
+                </li>
+                <li v-if='lastPage!=currentPage && nextPage !=lastPage' class="page-item">
+                    <a @click='getPostsByPage(lastPage)' class="page-link" :href="hrefLastPage">{{lastPage}}</a>
+                </li>
+            </ul>
+        </nav>
 
     </div>
 </template>
@@ -29,16 +48,60 @@
 <script>
 import postApi from '../services/postApi'
 export default {
+    data() {
+        return {           
+            totalItems: 0,
+            currentPage: 1,
+            hasNextPage: false,
+            hasPreviousPage: false,
+            nextPage: 1,
+            previousPage: 1,
+            lastPage: 1,
+            hrefPrevious: null,
+            hrefNextPage: null,
+            hrefLastPage: null,
+        }
+    },
     created(){
-        postApi.getPosts()
+        postApi.getPosts(1)
             .then(res=>{
-                this.$store.dispatch('setPosts',res.data.reverse())
+                this.totalItems = res.data.totalItems
+                this.currentPage = res.data.currentPage
+                this.hasNextPage = res.data.hasNextPage
+                this.hasPreviousPage = res.data.hasPreviousPage
+                this.nextPage = res.data.nextPage
+                this.previousPage = res.data.previousPage
+                this.lastPage = res.data.lastPage
+                this.hrefPrevious = '#page=' + res.data.previousPage
+                this.hrefNextPage = '#page=' + res.data.nextPage
+                this.hrefLastPage = '#page=' + res.data.lastPage
+                this.$store.dispatch('setPosts',res.data.posts)
             })
     },
+
     methods: {
         postDetail(post) {
             this.$store.commit('CURRENT_POST',post)
             this.$router.replace('/postDetail/'+post._id)
+        },
+        isCurrentPage(page){
+            return false //page==3
+        },
+        getPostsByPage(pageNum){
+            postApi.getPosts(pageNum)   
+                .then(res=>{
+                    this.totalItems = res.data.totalItems
+                    this.currentPage = res.data.currentPage
+                    this.hasNextPage = res.data.hasNextPage
+                    this.hasPreviousPage = res.data.hasPreviousPage
+                    this.nextPage = res.data.nextPage
+                    this.previousPage = res.data.previousPage
+                    this.lastPage = res.data.lastPage
+                    this.hrefPrevious = '#page=' + res.data.previousPage
+                    this.hrefNextPage = '#page=' + res.data.nextPage
+                    this.hrefLastPage = '#page=' + res.data.lastPage
+                    this.$store.dispatch('setPosts',res.data.posts)
+                })
         }
     },
     computed: {
@@ -47,7 +110,7 @@ export default {
         },
         posts() {
             return this.$store.getters.posts
-        }
+        },
     },
 }
 </script>
@@ -145,6 +208,9 @@ h3 {
 .hottopics{
     width:20%;
     padding:1rem;
+}
+#page-nav{
+    margin-top:1rem;
 }
 
 </style>
