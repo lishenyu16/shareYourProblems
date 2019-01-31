@@ -22,7 +22,7 @@ const mutations = {
 }
 const actions = {
     addPost({state,commit},payload){
-        alert('New Post has been posted!')
+        // alert('New Post has been posted!')
         commit('UPDATE_POSTS',payload)
     },
     setPosts({state,commit},payload){

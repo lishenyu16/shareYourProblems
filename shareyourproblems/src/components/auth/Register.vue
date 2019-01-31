@@ -43,6 +43,11 @@
                 }
                 authentication.register({username:this.username,password:this.password.trim()})
                     .then((res)=>{
+                        this.$notify({
+                            group: 'foo',
+                            title: 'Success',
+                            text: 'New account created!'
+                        });   
                         this.$router.push('/login')                 
                     })
                     .catch(err=>{

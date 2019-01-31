@@ -3,6 +3,7 @@
     <app-header></app-header>
     <router-view/>
     <app-footer></app-footer>
+    <notifications group="foo" />
   </div>
 </template>
 

@@ -83,9 +83,14 @@
                 likes:0,
                 dislikes:0
             }
+
             postApi.addPost(post)
                 .then((res)=>{
-                    console.log("res status: ", res.status)
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Success',
+                        text: 'A new post is added!'
+                    });                   
                     this.$store.dispatch('addPost',res.data.post)
                     .then(()=>{
                         this.$router.replace('/home')
